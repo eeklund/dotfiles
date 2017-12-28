@@ -62,12 +62,13 @@ let mapleader="\<Space>"
 map Q :Ex<CR>
 inoremap ht <ESC>
 
-let g:rspec_command = "!bundle exec rspec {spec}"
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
-map <Leader>r :!bundle exec rubocop<CR>
+" vim-test
+let test#strategy = "makegreen"
+nmap <leader>s :TestNearest<CR>
+nmap <leader>t :TestFile<CR>
+nmap <leader>a :TestSuite -strategy=basic<CR>
+nmap <leader>l :TestLast -strategy=basic<CR>
+nmap <leader>v :TestVisit<CR>
 
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
