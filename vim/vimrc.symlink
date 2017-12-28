@@ -1,4 +1,101 @@
 syntax on
 
+set nocompatible
+filetype off
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+if filereadable(expand("~/.vimrc.bundles"))
+  source ~/.vimrc.bundles
+endif
+
+filetype plugin on
 " Wrap gitcommit file types at the appropriate length
 filetype indent plugin on
+
+set noswapfile
+
+let g:ctrlp_working_path_mode = 'r'
+set wildignore+=*/vendor/**,*/node_modules/**,*/tmp/**
+set wildignore+=*/vendor/*,*/node_modules/*,*/tmp/*
+set wildignore+=*/bundle/**,*/bundle/*
+
+set rnu
+nnoremap <silent><leader>n :set rnu! rnu? <cr>
+
+set encoding=utf-8    " Set default encoding to UTF-8
+
+set tabstop=2
+set shiftwidth=2                  " an autoindent (with <<) is two spaces
+set shiftround
+set expandtab "spaces when tabbing
+set autoindent
+
+set list listchars=tab:»·,trail:·,nbsp:·
+
+set hlsearch    " highlight matches
+set incsearch   " incremental searching
+set ignorecase  " searches are case insensitive...
+set smartcase   " ... unless they contain at least one capital letter
+
+syntax enable
+set background=dark
+colorscheme solarized
+set guifont=Anonymous_Pro_for_Powerline:h18
+
+"folding settings
+set foldmethod=indent   "fold based on indent
+set foldnestmax=10      "deepest fold is 10 levels
+set nofoldenable        "dont fold by default
+set foldlevel=1         "this is just what i use
+
+"airline settings
+set laststatus=2
+set guifont=Anonymous_Pro_for_Powerline:h18
+
+" Mappings
+let mapleader="\<Space>"
+map Q :Ex<CR>
+inoremap ht <ESC>
+
+let g:rspec_command = "!bundle exec rspec {spec}"
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+map <Leader>r :!bundle exec rubocop<CR>
+
+" Switch between the last two files
+nnoremap <leader><leader> <c-^>
+
+fun! <SID>StripTrailingWhitespaces()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfun
+
+if $VIM_CRONTAB == "true"
+  set nobackup
+  set nowritebackup
+endif
+
+" configure syntastic syntax checking to check on open as well as save
+let g:syntastic_check_on_open=1
+
+autocmd BufRead,BufNewFile *.md set filetype=markdown
+" Enable spellchecking for Markdown
+autocmd FileType markdown setlocal spell
+
+autocmd FileType c,cpp,java,php,ruby,python,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd Filetype gitcommit setlocal spell textwidth=72
+source /Users/Ian/.asrvimrc
+
+" Local config
+if filereadable($HOME . "/.vimrc.local")
+  source ~/.vimrc.local
+endif

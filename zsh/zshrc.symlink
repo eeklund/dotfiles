@@ -2,7 +2,7 @@
 export ZSH=$HOME/.dotfiles
 
 # your project folder that we can `c [tab]` to
-export PROJECTS=~/Code
+export PROJECTS=~/Documents/workspace
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
@@ -11,6 +11,16 @@ if [[ -a ~/.localrc ]]
 then
   source ~/.localrc
 fi
+
+if [[ -a ~/.asr_aliases ]]
+then
+  source ~/.asr_aliases
+fi
+
+for file in /Users/Ian/.asr/functions
+do
+  source $file
+done
 
 # all of our zsh files
 typeset -U config_files
