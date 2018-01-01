@@ -66,8 +66,8 @@ inoremap ht <ESC>
 let test#strategy = "makegreen"
 nmap <leader>s :TestNearest<CR>
 nmap <leader>t :TestFile<CR>
-nmap <leader>a :TestSuite -strategy=basic<CR>
-nmap <leader>l :TestLast -strategy=basic<CR>
+nmap <leader>a :TestSuite -strategy=dispatch_background<CR>
+nmap <leader>l :TestLast<CR>
 nmap <leader>v :TestVisit<CR>
 
 " Switch between the last two files
