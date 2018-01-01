@@ -1,0 +1,21 @@
+call plug#begin('~/.vim/plugged')
+
+Plug 'mileszs/ack.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'godlygeek/tabular'
+Plug 'altercation/vim-colors-solarized'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'vim-ruby/vim-ruby'
+Plug 'vim-scripts/tComment'
+Plug 'rust-lang/rust.vim'
+Plug 'janko-m/vim-test'
+Plug 'leshill/vim-json', { 'for': ['javascript','json'] }
+Plug 'racer-rust/vim-racer'
+Plug 'rhysd/vim-crystal'
+Plug 'reinh/vim-makegreen'
+Plug 'tpope/vim-dispatch'
+call plug#end()
