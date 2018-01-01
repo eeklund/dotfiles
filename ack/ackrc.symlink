@@ -1,0 +1,12 @@
+--sort-files
+--color
+--ignore-dir=bundle
+--ignore-dir=vendor
+--ignore-dir=log
+--ignore-dir=doc
+--ignore-dir=artifacts
+--ignore-dir=tmp
+--ignore-dir=.tmp
+--ignore-dir=dist
+--ignore-dir=source/bower_components
+--ignore-dir=tracks
