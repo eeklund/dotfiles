@@ -79,21 +79,35 @@ fun! <SID>StripTrailingWhitespaces()
   %s/\s\+$//e
   call cursor(l, c)
 endfun
+autocmd FileType c,cpp,java,php,ruby,python,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 if $VIM_CRONTAB == "true"
   set nobackup
   set nowritebackup
 endif
 
-" configure syntastic syntax checking to check on open as well as save
-let g:syntastic_check_on_open=1
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" markdown
 autocmd BufRead,BufNewFile *.md set filetype=markdown
-" Enable spellchecking for Markdown
 autocmd FileType markdown setlocal spell
 
-autocmd FileType c,cpp,java,php,ruby,python,rust autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+" gitcommits
 autocmd Filetype gitcommit setlocal spell textwidth=72
+
+" Rust
+let g:rustfmt_autosave = 1
+let g:syntastic_rust_checkers = ['cargo']
+
+"asr config
 source /Users/Ian/.asrvimrc
 
 " Local config
