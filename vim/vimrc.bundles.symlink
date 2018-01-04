@@ -1,7 +1,5 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'mileszs/ack.vim'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'godlygeek/tabular'
 Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/syntastic'
@@ -18,4 +16,6 @@ Plug 'racer-rust/vim-racer'
 Plug 'rhysd/vim-crystal'
 Plug 'reinh/vim-makegreen'
 Plug 'tpope/vim-dispatch'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 call plug#end()
