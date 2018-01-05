@@ -1,28 +1,40 @@
-# Use `hub` as our git wrapper:
-#   http://defunkt.github.com/hub/
-hub_path=$(which hub)
-if (( $+commands[hub] ))
-then
-  alias git=$hub_path
-fi
+alias git=hub
+alias g=git
 
-# The rest of my fun git aliases
-alias gl='git pull --prune'
-alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-alias gp='git push origin HEAD'
+# checkout a new branch
+alias gb='g checkout -b'
 
-# Remove `+` and `-` from start of diff lines; just rely upon color.
-alias gd='git diff --color | sed "s/^\([^-+ ]*\)[-+ ]/\\1/" | less -r'
+# check status
+alias gs='g status -sb'
 
-alias g='git'
-alias ga='git add -p'
-alias gc='git commit -v'
-alias gca='git commit -a'
-alias gco='git checkout'
-alias gcb='git copy-branch-name'
-alias gb='git checkout -b'
-alias gs='git status -sb' # upgrade your git if -sb breaks for you. it's fun.
-alias gac='git add -A && git commit -m'
-alias ge='git-edit-new'
-alias gx='git branch --merged | xargs git branch -d'
-alias gits='mkdir .git/safe'
+# add in patch mode
+alias ga='g add -p'
+
+# commit with visible changes
+alias gc='g commit -v'
+
+# push to origin
+alias gp='g push origin HEAD'
+
+# [hub] pull request
+alias gpr='g pull-request'
+
+# rebase -i
+alias gr='g rebase -i master'
+
+# switch back to master & pull master
+alias gu='g checkout master && g pull origin master'
+
+# log
+alias gl="g log"
+alias glog="g log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+
+# delete local merged branches
+alias gx='g branch --merged | xargs g branch -d'
+
+# [hub] browse
+alias gbr='g browse'
+
+# set up local safe dir for pathing
+alias gsf='mkdir .git/safe'
+
