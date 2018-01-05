@@ -60,7 +60,6 @@ set guifont=Anonymous_Pro_for_Powerline:h18
 " Mappings
 let mapleader="\<Space>"
 map Q :Ex<CR>
-inoremap ht <ESC>
 
 " vim-test
 let test#strategy = "makegreen"
