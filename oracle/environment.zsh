@@ -1,4 +1,3 @@
+# http://www.rubydoc.info/github/kubo/ruby-oci8/file/docs/install-on-osx.md
+export OCI_DIR=$(brew --prefix)/lib
 export NLS_LANG=.US7ASCII
-export ORACLE_HOME=/opt/oracle/instantclient_11_2
-export OCI_DIR=/opt/oracle/instantclient_11_2
-export RC_ARCHS=x86_64
