@@ -19,6 +19,9 @@ alias gp='g push origin HEAD'
 # [hub] pull request
 alias gpr='g pull-request'
 
+# push and pr
+alias gppr='gp && gpr'
+
 # rebase -i
 alias gr='g rebase -i master'
 
@@ -29,8 +32,8 @@ alias gu='g checkout master && g pull origin master'
 alias gl="g log"
 alias glog="g log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 
-# delete local merged branches
-alias gx='g branch --merged | xargs g branch -d'
+# delete local merged branches, but not master
+alias gx='g branch --merged | grep -v master | xargs git branch -d'
 
 # [hub] browse
 alias gbr='g browse'
