@@ -62,7 +62,7 @@ let mapleader="\<Space>"
 map Q :Ex<CR>
 
 " vim-test
-let test#strategy = "makegreen"
+let test#strategy = "dispatch"
 nmap <leader>s :TestNearest<CR>
 nmap <leader>t :TestFile<CR>
 nmap <leader>a :TestSuite -strategy=dispatch_background<CR>
