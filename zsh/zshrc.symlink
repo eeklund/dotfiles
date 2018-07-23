@@ -17,7 +17,7 @@ then
   source ~/.asr_aliases
 fi
 
-for file in /Users/Ian/.asr/functions
+for file in /Users/whit0694/.asr/functions
 do
   source $file
 done
@@ -39,14 +39,19 @@ do
 done
 
 # initialize autocomplete here, otherwise functions won't be loaded
-#autoload -U compinit
-#compinit
+autoload -U compinit
+compinit
 
-# load every completion after autocomplete loads
-#for file in ${(M)config_files:#*/completion.zsh}
-#do
-#  source $file
-#done
+#load every completion after autocomplete loads
+for file in ${(M)config_files:#*/completion.bash}
+do
+  source $file
+done
+
+for file in ${(M)config_files:#*/completion.zsh}
+do
+  source $file
+done
 
 unset config_files
 
@@ -58,7 +63,10 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
-source /Users/Ian/.asr_chruby
+source /Users/whit0694/.asr_chruby
 
 # autocorrect
 alias rspec='nocorrect rspec'
+
+# qt for GPA Calculator
+export PATH="$(brew --prefix qt@5.5)/bin:$PATH"

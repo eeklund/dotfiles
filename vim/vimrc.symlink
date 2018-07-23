@@ -43,8 +43,7 @@ set ignorecase  " searches are case insensitive...
 set smartcase   " ... unless they contain at least one capital letter
 
 syntax enable
-set background=dark
-colorscheme solarized
+color dracula
 set guifont=Anonymous_Pro_for_Powerline:h18
 
 "folding settings
@@ -107,7 +106,7 @@ let g:rustfmt_autosave = 1
 let g:syntastic_rust_checkers = ['cargo']
 
 "asr config
-source /Users/Ian/.asrvimrc
+source /Users/whit0694/.asrvimrc
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")

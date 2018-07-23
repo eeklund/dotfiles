@@ -1,1 +1,1 @@
-export RUST_SRC_PATH="/Users/Ian/Documents/workspace/rust/src"
+export RUST_SRC_PATH="/Users/whit0694/Documents/workspace/rust/src"

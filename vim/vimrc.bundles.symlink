@@ -2,6 +2,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'godlygeek/tabular'
 Plug 'altercation/vim-colors-solarized'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-endwise'
@@ -18,4 +19,5 @@ Plug 'reinh/vim-makegreen'
 Plug 'tpope/vim-dispatch'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'rizzatti/dash.vim'
 call plug#end()
