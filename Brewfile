@@ -4,7 +4,6 @@ tap 'homebrew/bundle'
 tap 'puma/puma'
 
 brew 'ansible'
-brew 'ansible-vault'
 brew 'chruby'
 brew 'coreutils'
 brew 'fzf'
