@@ -10,3 +10,5 @@ alias gc_sdpm="git clone https://github.umn.edu/sdp/sdp_management.git"
 alias caffeinate="caffeinate -d -i"
 
 export STUB_INTERNET_ID="whit0694"
+
+alias vacation="echo 'umn.edu_gjh72idh4stdgi3q2173d5e6jo@group.calendar.google.com' | pbcopy"
