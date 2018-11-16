@@ -106,7 +106,7 @@ let g:rustfmt_autosave = 1
 let g:syntastic_rust_checkers = ['cargo']
 
 "asr config
-source /Users/whit0694/.asrvimrc
+source /Users/eeklund/.asrvimrc
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")

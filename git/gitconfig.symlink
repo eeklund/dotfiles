@@ -9,7 +9,7 @@
         branch = auto
         ui = true
 [core]
-	excludesfile = /Users/whit0694/.gitignore_global
+	excludesfile = /Users/eeklund/.gitignore_global
         editor = vim
 [apply]
         whitespace = nowarn
@@ -30,7 +30,7 @@
 [fetch]
   prune = true
 [include]
-  path = /Users/whit0694/.asr_gitconfig
+  path = /Users/eeklund/.asr_gitconfig
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

@@ -17,7 +17,7 @@ then
   source ~/.asr_aliases
 fi
 
-for file in /Users/whit0694/.asr/functions
+for file in /Users/eeklund/.asr/functions
 do
   source $file
 done
@@ -63,7 +63,7 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
-source /Users/whit0694/.asr_chruby
+source /Users/eeklund/.asr_chruby
 
 # autocorrect
 alias rspec='nocorrect rspec'
