@@ -26,7 +26,8 @@
         # Setting to git 2.0 default to suppress warning message
         default = simple
 [user]
-	name = Ian Whitney
+        email = eeklund@umn.edu
+	name = Eric Eklund
 [fetch]
   prune = true
 [include]
@@ -38,3 +39,24 @@
 	required = true
 [alias]
 	st = status
+co = checkout
+	br = branch
+	ci = commit
+	st = status
+	lg = log --pretty='%Cred%h%Creset | %C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %C(cyan)[%an]%Creset' --graph
+	undo = "!f() { git reset --hard $(git rev-parse --abbrev-ref HEAD)@{${1-1}}; }; f"
+	so = show --pretty='parent %Cred%p%Creset commit %Cred%h%Creset%C(yellow)%d%Creset%n%n%w(72,2,2)%s%n%n%w(72,0,0)%C(cyan)%an%Creset %Cgreen%ar%Creset'
+        wip = "!f() { dt=$(date '+%d/%m/%Y %H:%M:%S'); msg=${1-WIP - $dt}; SKIP=all git commit -am \"$msg\"; }; f"
+        pairpush = "!f() { branch=$(git rev-parse --abbrev-ref HEAD); git add -A; git commit -m \"SWITCH\"; git push origin $branch; }; f"
+        pairpull = "!f() { branch=$(git rev-parse --abbrev-ref HEAD); git pull origin $branch; cmmsg=$(git log -1 --pretty=%B); sha=$(git rev-parse HEAD^1); if [ $cmmsg == 'SWITCH' ]; then git reset --soft $sha; git push origin $branch --force-with-lease; else echo 'Not a switch commit'; fi; }; f"
+        b = "!f() { branch=$(git rev-parse --abbrev-ref HEAD); echo $branch; }; f"
+[coauthor]
+	author = Ian Whitney <whit0694@umn.edu>
+	author = Tony Thomas <thoma127@umn.edu>
+	author = Brittany Greaner <grea0022@umn.edu>
+	author = Remy Abdullahi <abdu0299@umn.edu>
+	author = Davin Lagerroos <dlagerro@umn.edu>
+	author = Shawn Isenhart <isen0011@umn.edu>
+	author = Eric Eklund <eeklund@umn.edu>
+[commit]
+	template = /Users/eeklund/.git_coauthor_commit_template
