@@ -28,6 +28,7 @@
 [user]
         email = eeklund@umn.edu
 	name = Eric Eklund
+	signingkey = 2A92EA63A41DFB7D
 [fetch]
   prune = true
 [include]
@@ -58,5 +59,7 @@ co = checkout
 	author = Davin Lagerroos <dlagerro@umn.edu>
 	author = Shawn Isenhart <isen0011@umn.edu>
 	author = Eric Eklund <eeklund@umn.edu>
+[gpg]
+	program = gpg
 [commit]
-	template = /Users/eeklund/.git_coauthor_commit_template
+	gpgsign = true
