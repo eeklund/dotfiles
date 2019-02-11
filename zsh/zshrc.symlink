@@ -67,5 +67,4 @@ source /Users/eeklund/.asr_chruby
 # autocorrect
 alias rspec='nocorrect rspec'
 
-# qt for GPA Calculator
-export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+export PATH="$(brew --prefix)/bin:$PATH"
