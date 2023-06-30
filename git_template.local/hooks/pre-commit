@@ -1,0 +1,4 @@
+if [ "$SKIP_HOOKS" != "true" ] && [[ "$x"==*"docker-compose"* ]]; then
+  docker compose exec -T web sh -c '/app/script/_lint
+fi
+'
