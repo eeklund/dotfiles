@@ -1,0 +1,8 @@
+[[ -f ~.asr_aliases ]] && source ~/.asr_aliases
+[[ -f ~.asr_chruby ]] && source ~/.asr_chruby
+export PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig"
+ssh-add ~/.ssh/id_ed25519
+
+for function in /Users/eeklund/.asr/functions/*; do
+	source $function
+done

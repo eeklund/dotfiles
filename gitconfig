@@ -14,7 +14,7 @@
   pf = push --force-with-lease
   st = status
 [core]
-  excludesfile = ~/.gitignore
+  excludesfile = /Users/eeklund/.gitignore_global
   autocrlf = input
 [merge]
   ff = only
@@ -28,3 +28,5 @@
   path = ~/.gitconfig.local
 [diff]
   colorMoved = zebra
+[include]
+  path = /Users/eeklund/.asr_gitconfig
