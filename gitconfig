@@ -13,6 +13,10 @@
   co = checkout
   pf = push --force-with-lease
   st = status
+  lg = log --pretty='%Cred%h%Creset | %C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %C(cyan)[%an]%Creset' --graph
+  wip = "!f() { dt=$(date '+%d/%m/%Y %H:%M:%S'); msg=${1-WIP - $dt}; SKIP=all git commit -am \"$msg\"; }; f"
+  b = "!f() { branch=$(git rev-parse --abbrev-ref HEAD); echo $branch; }; f"
+  a = "add --patch"
 [core]
   excludesfile = /Users/eeklund/.gitignore_global
   autocrlf = input
@@ -28,5 +32,9 @@
   path = ~/.gitconfig.local
 [diff]
   colorMoved = zebra
+[user]
+	name = Eric Eklund
+	email = eeklund@umn.edu
 [include]
   path = /Users/eeklund/.asr_gitconfig
+
