@@ -1,0 +1,44 @@
+# Docker
+alias dce='docker-compose exec'
+alias dcer='docker-compose exec -e RAILS_TEMPLATE_DIR=~/code/rails_templates/ web bin/rails'
+alias dcert='docker-compose exec -e RAILS_ENV=test web bin/rails'
+alias railworks='docker run --rm -it -v ${PWD}:/app railworks'
+
+# Git helpers
+alias coauthor='cat ~/.git_coauthor_commit_template | pbcopy'
+alias gb='git checkout -b'
+alias gx='g branch --merged | grep -v master | grep -v main | xargs git branch -d'
+
+# Web Sites
+alias lh='open http://localhost:3000'
+alias wfgc='open https://wfgen-cdev.umn.edu/wfgen/admin'
+alias wfgp='open https://wfgen.umn.edu/wfgen/admin'
+alias osconfig='open https://onestop-config.dev.umn.edu'
+alias ostcdev='open https://onestop-tc.dev.umn.edu'
+alias ostcprd='open https://onestop-tc.prd.umn.edu'
+alias drupalddev='open https://d9-docker.ddev.site/'
+alias fiend='open https://assets-staging.asr.umn.edu/portfolio/index.html'
+alias idp_tracking_spreadsheet='open https://docs.google.com/spreadsheets/d/1aTvx7B6I3YNDT540z3iWfHAKv3VXbS1z87P03EPiKF4/edit#gid=0'
+alias idp_tracking_doc='open https://docs.google.com/document/d/1otN-EEJvaNDX8H2PAYgClozUThar2zThpHhXVm0rrQU/edit'
+alias pt_combined_team='open https://www.pivotaltracker.com/n/projects/2613065'
+alias pt_top='open https://www.pivotaltracker.com/n/projects/2532522'
+alias pairing='open https://docs.google.com/spreadsheets/d/1-Rpqj9hTfnw_55_RCHU2tT9an_4hKMwqyD0AaqvFOO4/edit#gid=39096273'
+alias portfolio='open https://docs.google.com/spreadsheets/d/1W_WQKSULIu8MB82hNM5GlrC48RJyahtBewKCrs0VOu4/edit?pli=1#gid=0'
+alias passwords='open https://docs.google.com/spreadsheets/d/1CxCZz8d2hHZCGadpqTBTpp_TUqP7Cy-EjqWBE_NVItA/edit#gid=977929637'
+alias splunk='open https://search.splunk.umn.edu'
+alias gaad='open https://drive.google.com/drive/folders/0AACfCVQDeKK1Uk9PVA'
+alias gasr='open https://github.umn.edu/asrweb'
+alias geek='open https://github.umn.edu/eeklund && open https://git.com/eeklund'
+
+# SSH
+alias dev_jme='ssh eeklund@asr-appdev-dev-web-01.oit.umn.edu'
+alias drone_ui_dev='open http://asr-drone-dev-app-01.oit.umn.edu/'
+alias drone_ui_prod='open http://ci.asr.umn.edu'
+
+# Helpers
+alias github_api='echo "a1de557c0be413053331d7a08c94ea42198eac5e" | pbcopy'
+alias kb='cd ~/code/knowledgebucket && git co main && git pull origin main && code . && cd -'
+alias professional_development='code ~/Documents/notes/professional_development.md'
+alias check_uofm_vpn='output=$(/opt/cisco/anyconnect/bin/vpn stats) && echo "$output" | grep -q "Connected to tc-vpn-1.vpn.umn.edu" && test $(echo "$output" | grep -q "Tunnel mode (IPv4)" | awk -F"Split |$" "{print $2}") == "Exclude" && echo true || echo false'
+alias vnc_oldlaptop='open vnc://C02XM2T7JGH6.local'
+alias vacation="echo 'umn.edu_gjh72idh4stdgi3q2173d5e6jo@group.calendar.google.com' | pbcopy"
