@@ -1,8 +1,11 @@
-[[ -f ~.asr_aliases ]] && source ~/.asr_aliases
-[[ -f ~.asr_chruby ]] && source ~/.asr_chruby
+[[ -f ~/.asr_aliases ]] && source ~/.asr_aliases
+[[ -f ~/.asr_chruby ]] && source ~/.asr_chruby
+[[ -f ~/dotfiles/oracle/environment.zsh ]] && source ~/dotfiles/oracle/environment.zsh
 export PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig"
 ssh-add ~/.ssh/id_ed25519
 
 for function in /Users/eeklund/.asr/functions/*; do
  source $function
 done
+
+alias mrsk='docker run --rm -it -v $HOME/.ssh:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}/:/workdir  ghcr.io/mrsked/mrsk'

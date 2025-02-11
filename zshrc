@@ -39,3 +39,18 @@ _load_settings "$HOME/.zsh/configs"
 
 # aliases
 [[ -f ~/.aliases ]] && source ~/.aliases
+source /Users/eeklund/.asr_aliases
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source /Users/eeklund/.asr_chruby
+export PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig"
+
+for function in /Users/eeklund/.asr/functions/*; do
+	source $function 
+done
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+
+autoload bashcompinit && bashcompinit
+source $(brew --prefix)/etc/bash_completion.d/az
+ssh-add ~/.ssh/id_rsa

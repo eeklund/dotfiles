@@ -1,0 +1,33 @@
+#!/bin/bash
+
+REMOTE_USER="eeklund"
+REMOTE_HOST="asr-eeklund-dev-devops-01.oit.umn.edu"
+REMOTE_BASE_PATH="/home/eeklund/code/tuition_and_fee_management/"
+
+LOCAL_TMP_DIR="/tmp/capybara_screenshots"
+mkdir -p "$LOCAL_TMP_DIR"
+
+if [ -z "$1" ]; then
+  echo "Usage: open_remote <remote_filename>"
+  exit 1
+fi
+
+REMOTE_FILE=$(echo "$1" | sed 's/ /\\ /g')
+LOCAL_FILE="$LOCAL_TMP_DIR/$(basename "$1")"
+
+scp "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_BASE_PATH}/${REMOTE_FILE}" "$LOCAL_FILE"
+if [ $? -ne 0 ]; then
+  echo "Failed to download file: $1"
+  exit 1
+fi
+
+if command -v open >/dev/null; then
+  open "$LOCAL_FILE"
+else
+  echo "No suitable open command found."
+  exit 1
+fi
+
+read -p "Press Enter when done viewing the file..."
+rm "$LOCAL_FILE"
+

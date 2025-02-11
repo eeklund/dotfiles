@@ -1,0 +1,62 @@
+#!/bin/bash
+
+if [ "$#" -gt 1 ]; then
+  echo "Usage: gptcpdir [directory]"
+  exit 1
+fi
+
+BASE_DIR="${1:-.}"
+
+if [ ! -d "$BASE_DIR" ]; then
+  echo "Error: Directory '$BASE_DIR' not found."
+  exit 1
+fi
+
+copy_to_clipboard() {
+  if command -v pbcopy >/dev/null 2>&1; then
+    echo -e "$FORMATTED_TEXT" | pbcopy
+  elif command -v xclip >/dev/null 2>&1; then
+    echo -e "$FORMATTED_TEXT" | xclip -selection clipboard
+  elif command -v xsel >/dev/null 2>&1; then
+    echo -e "$FORMATTED_TEXT" | xsel --clipboard --input
+  else
+    echo "Error: No clipboard utility found. Please install pbcopy (macOS), xclip, or xsel (Linux)."
+    exit 1
+  fi
+}
+
+is_ignored() {
+  local file="$1"
+  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    if git check-ignore -q "$file"; then
+      return 0
+    fi
+  fi
+  if [ -f "$BASE_DIR/.dockerignore" ]; then
+    local rel_file
+    rel_file=$(realpath --relative-to="$BASE_DIR" "$file")
+    while IFS= read -r pattern; do
+      if [ -z "$pattern" ] || [[ "$pattern" =~ ^# ]]; then
+        continue
+      fi
+      if [[ "$rel_file" == $pattern ]]; then
+        return 0
+      fi
+    done < "$BASE_DIR/.dockerignore"
+  fi
+  return 1
+}
+
+FORMATTED_TEXT=""
+while IFS= read -r -d '' file; do
+  if is_ignored "$file"; then
+    continue
+  fi
+  rel_path=$(realpath --relative-to="$BASE_DIR" "$file")
+  file_contents=$(cat "$file")
+  FORMATTED_TEXT+="${rel_path}:\n\`\`\`\n${file_contents}\n\`\`\`\n\n"
+done < <(find "$BASE_DIR" -type f -print0)
+
+copy_to_clipboard
+echo "✅ Copied formatted content of directory '$BASE_DIR' to clipboard."
+

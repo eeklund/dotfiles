@@ -29,11 +29,13 @@ alias splunk='open https://search.splunk.umn.edu'
 alias gaad='open https://drive.google.com/drive/folders/0AACfCVQDeKK1Uk9PVA'
 alias gasr='open https://github.umn.edu/asrweb'
 alias geek='open https://github.umn.edu/eeklund && open https://git.com/eeklund'
-
-# SSH
-alias dev_jme='ssh eeklund@asr-appdev-dev-web-01.oit.umn.edu'
-alias drone_ui_dev='open http://asr-drone-dev-app-01.oit.umn.edu/'
-alias drone_ui_prod='open http://ci.asr.umn.edu'
+alias eol='open https://endoflife.date'
+alias rails_upgrade_compatibility='open https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html'
+alias infrastructure='open https://docs.google.com/spreadsheets/d/1wbBExfMPChOy8vL7orfZiywdr3_JZV3GXvKXjrUk0HQ/edit#gid=0'
+alias drone_ui_dev='open https://asr-drone-dev-app-01.oit.umn.edu/'
+alias drone_ui_prod='open https://ci.asr.umn.edu'
+alias kbw='open https://github.umn.edu/asrweb/knowledgebucket'
+alias wfg_transition='open https://docs.google.com/spreadsheets/d/1Bv1b9gRzAL9HNjxdeynNZ4_89t_G_uL5mKulhNptWF4/edit#gid=0'
 
 # Helpers
 alias github_api='echo "a1de557c0be413053331d7a08c94ea42198eac5e" | pbcopy'

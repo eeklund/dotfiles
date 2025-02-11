@@ -18,12 +18,10 @@
   b = "!f() { branch=$(git rev-parse --abbrev-ref HEAD); echo $branch; }; f"
   a = "add --patch"
 [core]
-  excludesfile = /Users/eeklund/.gitignore_global
+	excludesfile = /Users/eeklund/.gitignore_global
   autocrlf = input
 [merge]
   ff = only
-[commit]
-  template = ~/.gitmessage
 [fetch]
   prune = true
 [rebase]
@@ -37,4 +35,12 @@
 	email = eeklund@umn.edu
 [include]
   path = /Users/eeklund/.asr_gitconfig
-
+[coauthor]
+  author = Cassie Simpson <simps614@umn.edu>
+  author = Davin Lagerroos <dlagerro@umn.edu>
+  author = Eric Eklund <eeklund@umn.edu>
+  author = Shawn Isenhart <isen0011@umn.edu>
+  author = Tony Thomas <thoma127@umn.edu>
+	author = Nate Morse <morse255@umn.edu>
+[commit]
+	template = /Users/eeklund/.git_coauthor_commit_template
