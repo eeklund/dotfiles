@@ -21,6 +21,10 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias -- -="cd -"
 
+# Open Rails application staging/production sites
+alias staging="open_site staging"
+alias production="open_site production"
+
 # Include custom aliases
 if [[ -f ~/.aliases.local ]]; then
   source ~/.aliases.local

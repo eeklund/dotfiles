@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+require 'yaml'
+
+env = ARGV[0] || File.basename($0)
+search_dir = Dir.pwd
+config = nil
+
+while search_dir && search_dir != File.dirname(search_dir)
+  candidate = File.join(search_dir, 'config', "deploy.#{env}.yml")
+  if File.exist?(candidate)
+    config = candidate
+    break
+  end
+  search_dir = File.dirname(search_dir)
+end
+
+unless config
+  warn "✖ no config/deploy.#{env}.yml found in any parent directories"
+  exit 1
+end
+
+data   = YAML.load_file(config)
+labels = data.dig('servers','web','labels')
+
+unless labels.is_a?(Hash)
+  warn "✖ servers → web → labels missing in #{config}"
+  exit 1
+end
+
+rule_val = labels.find { |k,_| k.match?(/\Atraefik\.http\.routers\..+\.rule\z/) }&.last
+
+unless rule_val
+  warn "✖ no traefik HTTP router rule label in #{config}"
+  exit 1
+end
+
+host = rule_val.scan(/Host\(`([^`]+)`\)/).flatten.first
+
+unless host
+  warn "✖ no Host(`…`) entry in the rule: #{rule_val.inspect}"
+  exit 1
+end
+
+url = "https://#{host}"
+puts "→ opening #{url}"
+exec 'open', url
+
