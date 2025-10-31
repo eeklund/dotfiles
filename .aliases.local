@@ -41,6 +41,6 @@ alias wfg_transition='open https://docs.google.com/spreadsheets/d/1Bv1b9gRzAL9HN
 alias github_api='echo "a1de557c0be413053331d7a08c94ea42198eac5e" | pbcopy'
 alias kb='cd ~/code/knowledgebucket && git co main && git pull origin main && code . && cd -'
 alias professional_development='code ~/Documents/notes/professional_development.md'
-alias check_uofm_vpn='output=$(/opt/cisco/anyconnect/bin/vpn stats) && echo "$output" | grep -q "Connected to tc-vpn-1.vpn.umn.edu" && test $(echo "$output" | grep -q "Tunnel mode (IPv4)" | awk -F"Split |$" "{print $2}") == "Exclude" && echo true || echo false'
+alias check_uofm_vpn='output=$(sudo /opt/cisco/secureclient/bin/vpn stats) &&\n  echo "$output" | grep -q "Profile Name:[[:space:]]*UofMvpn.xml" &&\n  echo "$output" | grep -q "Connection State:[[:space:]]*Connected" &&\n  echo true || echo false\n'
 alias vnc_oldlaptop='open vnc://C02XM2T7JGH6.local'
 alias vacation="echo 'umn.edu_gjh72idh4stdgi3q2173d5e6jo@group.calendar.google.com' | pbcopy"
