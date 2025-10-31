@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+osascript <<'APPLESCRIPT'
+on run
+  set userHost to "tfms-test"
+  set sessionNames to {"dev", "test", "console", "server"}
+
+  tell application "iTerm2"
+    set win to (create window with default profile)
+
+    set firstName to item 1 of sessionNames
+    tell current session of win
+      write text "printf '\\e]1;" & firstName & "\\a\\e]2;TFMS Test Server - " & firstName & "\\a'"
+      write text "ssh -tt " & userHost & " 'tmux new -As " & firstName & " \"export TMOUT=0; exec $SHELL -l\"'"
+    end tell
+
+    repeat with i from 2 to (count of sessionNames)
+      set s to item i of sessionNames
+      tell win
+        create tab with default profile
+        tell current session of current tab
+          write text "printf '\\e]1;" & s & "\\a\\e]2;TFMS Test Server - " & s & "\\a'"
+          write text "ssh -tt " & userHost & " 'tmux new -As " & s & " \"export TMOUT=0; exec $SHELL -l\"'"
+        end tell
+      end tell
+    end repeat
+
+    activate
+  end tell
+end run
+APPLESCRIPT
+
