@@ -42,5 +42,3 @@
   author = Shawn Isenhart <isen0011@umn.edu>
   author = Tony Thomas <thoma127@umn.edu>
 	author = Nate Morse <morse255@umn.edu>
-[commit]
-	template = /Users/eeklund/.git_coauthor_commit_template
