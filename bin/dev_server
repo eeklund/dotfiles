@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define sessions
-sessions=("dev" "test" "server")
+sessions=("dev" "test" "console" "server")
 
 # SSH details
 SERVER="eeklund@asr-eeklund-dev-devops-01.oit.umn.edu"
@@ -18,7 +18,7 @@ open_tmux_sessions() {
         end tell
       end if
       tell current session of current tab of current window
-        write text "ssh $SERVER -t 'tmux attach-session -t $session'"
+        write text "ssh $SERVER -t 'tmux new -As $session'"
       end tell
     end tell
 EOF
