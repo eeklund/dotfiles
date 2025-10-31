@@ -1,0 +1,27 @@
+while_test() {
+  local i=0
+  local cmd=(script/test)
+  if [ "$#" -gt 0 ]; then
+    cmd+=("$@")  # supports file or file:line
+  fi
+
+  while :; do
+    "${cmd[@]}"; rc=$?
+
+    case $rc in
+      0)
+        i=$((i+1))
+        echo "✅ pass $i @ $(date +%H:%M:%S)"
+        ;;
+      130|143)  # 130 = SIGINT, 143 = SIGTERM
+        echo
+        echo "🛑 interrupted after $i passes"
+        return 0
+        ;;
+      *)
+        echo "❌ failed on iteration $((i+1)) after $i passes (exit $rc)"
+        return $rc
+        ;;
+    esac
+  done
+}
