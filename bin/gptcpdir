@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 if [ "$#" -gt 1 ]; then
   echo "Usage: gptcpdir [directory]"
@@ -6,40 +7,37 @@ if [ "$#" -gt 1 ]; then
 fi
 
 BASE_DIR="${1:-.}"
+[ -d "$BASE_DIR" ] || { echo "Error: Directory '$BASE_DIR' not found."; exit 1; }
+BASE_DIR="$(cd "$BASE_DIR" && pwd -P)"
 
-if [ ! -d "$BASE_DIR" ]; then
-  echo "Error: Directory '$BASE_DIR' not found."
-  exit 1
-fi
+find_git_root_for() {
+  local path="$1"
+  git -C "$(dirname "$path")" rev-parse --show-toplevel 2>/dev/null || true
+}
 
-copy_to_clipboard() {
-  if command -v pbcopy >/dev/null 2>&1; then
-    echo -e "$FORMATTED_TEXT" | pbcopy
-  elif command -v xclip >/dev/null 2>&1; then
-    echo -e "$FORMATTED_TEXT" | xclip -selection clipboard
-  elif command -v xsel >/dev/null 2>&1; then
-    echo -e "$FORMATTED_TEXT" | xsel --clipboard --input
+calculate_relative_path() {
+  local target="$1" base="$2"
+  if realpath --relative-to="$base" "$target" >/dev/null 2>&1; then
+    realpath --relative-to="$base" "$target"
   else
-    echo "Error: No clipboard utility found. Please install pbcopy (macOS), xclip, or xsel (Linux)."
-    exit 1
+    perl -MFile::Spec -e 'print File::Spec->abs2rel($ARGV[1], $ARGV[0]);' "$base" "$target"
   fi
 }
 
 is_ignored() {
   local file="$1"
-  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    if git check-ignore -q "$file"; then
+  if git -C "$(dirname "$file")" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    if git -C "$(dirname "$file")" check-ignore -q "$file" 2>/dev/null; then
       return 0
     fi
   fi
   if [ -f "$BASE_DIR/.dockerignore" ]; then
-    local rel_file
-    rel_file=$(realpath --relative-to="$BASE_DIR" "$file")
+    local rel_file pattern
+    rel_file="$(calculate_relative_path "$file" "$BASE_DIR")"
     while IFS= read -r pattern; do
-      if [ -z "$pattern" ] || [[ "$pattern" =~ ^# ]]; then
-        continue
-      fi
-      if [[ "$rel_file" == $pattern ]]; then
+      [ -z "$pattern" ] && continue
+      [[ "$pattern" =~ ^[[:space:]]*# ]] && continue
+      if [[ "$rel_file" == "$pattern" ]] || [[ "$rel_file" == "$pattern/"* ]]; then
         return 0
       fi
     done < "$BASE_DIR/.dockerignore"
@@ -47,16 +45,66 @@ is_ignored() {
   return 1
 }
 
-FORMATTED_TEXT=""
-while IFS= read -r -d '' file; do
-  if is_ignored "$file"; then
-    continue
-  fi
-  rel_path=$(realpath --relative-to="$BASE_DIR" "$file")
-  file_contents=$(cat "$file")
-  FORMATTED_TEXT+="${rel_path}:\n\`\`\`\n${file_contents}\n\`\`\`\n\n"
-done < <(find "$BASE_DIR" -type f -print0)
+MAX_BYTES="${GPTCPDIR_MAX_BYTES:-262144}"
+SKIP_BIN="${GPTCPDIR_SKIP_BIN:-1}"
+SORT_MODE="${GPTCPDIR_SORT:-}"
 
-copy_to_clipboard
+list_files() {
+  if [ -n "$SORT_MODE" ]; then
+    find "$BASE_DIR" -type d -name .git -prune -o -type f -print |
+      LC_ALL=C sort |
+      awk 'BEGIN{RS="\n";ORS="\0"}{print}'
+  else
+    find "$BASE_DIR" -type d -name .git -prune -o -type f -print0
+  fi
+}
+
+is_binary() {
+  local f="$1"
+  file --mime "$f" 2>/dev/null | grep -qi 'charset=binary'
+}
+
+sink_cmd() {
+  if command -v pbcopy >/dev/null 2>&1; then echo "pbcopy"; return; fi
+  if command -v xclip  >/dev/null 2>&1; then echo "xclip -selection clipboard"; return; fi
+  if command -v xsel   >/dev/null 2>&1; then echo "xsel --clipboard --input"; return; fi
+  echo ""; return
+}
+
+SINK="$(sink_cmd)"
+[ -n "$SINK" ] || { echo "Error: No clipboard utility found. Install pbcopy, xclip, or xsel."; exit 1; }
+
+{
+  while IFS= read -r -d '' file; do
+    [ -f "$file" ] || continue
+    if is_ignored "$file"; then
+      continue
+    fi
+    if [ "$SKIP_BIN" = "1" ] && is_binary "$file"; then
+      continue
+    fi
+
+    abs="$(realpath "$file")"
+    root="$(find_git_root_for "$abs")"
+    if [ -n "$root" ]; then
+      rel="$(calculate_relative_path "$abs" "$(realpath "$root")")"
+    else
+      rel="$abs"
+    fi
+
+    printf '<<<BEGIN file="%s">>>\n' "$rel"
+
+    size=$(wc -c <"$abs")
+    if [ "$size" -le "$MAX_BYTES" ]; then
+      cat -- "$abs"
+    else
+      head -c "$MAX_BYTES" -- "$abs"
+      printf '\n[...TRUNCATED: original_size=%s bytes, shown=%s bytes]\n' "$size" "$MAX_BYTES"
+    fi
+
+    printf '\n<<<END file="%s">>>\n\n' "$rel"
+  done < <(list_files)
+} | eval "$SINK"
+
 echo "✅ Copied formatted content of directory '$BASE_DIR' to clipboard."
 

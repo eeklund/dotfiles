@@ -21,9 +21,11 @@ if [ ! -f "$FILE_PATH" ]; then
   exit 1
 fi
 
-# Function to find the Git root directory
-find_git_root() {
-  git rev-parse --show-toplevel 2>/dev/null
+# Function to find the Git root directory for the given file/dir
+find_git_root_for() {
+  local path="$1"
+  # Use the file's directory as the base for git -C
+  git -C "$(dirname "$path")" rev-parse --show-toplevel 2>/dev/null
 }
 
 # Function to calculate relative path
@@ -43,37 +45,36 @@ calculate_relative_path() {
   fi
 }
 
-# Determine the Git root directory
-GIT_ROOT=$(find_git_root)
+# Determine the Git root directory (using absolute file path)
+ABS_PATH="$(realpath "$FILE_PATH")"
+GIT_ROOT="$(find_git_root_for "$ABS_PATH")"
 
 if [ -n "$GIT_ROOT" ]; then
-  # Calculate relative path using the function
-  REL_PATH=$(calculate_relative_path "$(realpath "$FILE_PATH")" "$(realpath "$GIT_ROOT")")
+  REL_PATH=$(calculate_relative_path "$ABS_PATH" "$(realpath "$GIT_ROOT")")
 else
-  # If not inside a Git repository, use the absolute path
-  REL_PATH=$(realpath "$FILE_PATH")
+  REL_PATH="$ABS_PATH"
 fi
 
-# Read the file contents
-FILE_CONTENTS=$(cat "$FILE_PATH")
-
-# Prepare the formatted text
-FORMATTED_TEXT="${REL_PATH}:
-\`\`\`
-${FILE_CONTENTS}
-\`\`\`"
-
-# Function to copy text to clipboard based on OS
+# Stream markers + file to the clipboard (preserves content exactly)
 copy_to_clipboard() {
   if command -v pbcopy >/dev/null 2>&1; then
-    # macOS
-    echo "$FORMATTED_TEXT" | pbcopy
+    {
+      printf '<<<BEGIN file="%s">>>\n' "$REL_PATH"
+      cat -- "$FILE_PATH"
+      printf '\n<<<END file="%s">>>\n\n' "$REL_PATH"
+    } | pbcopy
   elif command -v xclip >/dev/null 2>&1; then
-    # Linux with xclip
-    echo "$FORMATTED_TEXT" | xclip -selection clipboard
+    {
+      printf '<<<BEGIN file="%s">>>\n' "$REL_PATH"
+      cat -- "$FILE_PATH"
+      printf '\n<<<END file="%s">>>\n\n' "$REL_PATH"
+    } | xclip -selection clipboard
   elif command -v xsel >/dev/null 2>&1; then
-    # Linux with xsel
-    echo "$FORMATTED_TEXT" | xsel --clipboard --input
+    {
+      printf '<<<BEGIN file="%s">>>\n' "$REL_PATH"
+      cat -- "$FILE_PATH"
+      printf '\n<<<END file="%s">>>\n\n' "$REL_PATH"
+    } | xsel --clipboard --input
   else
     echo "Error: No clipboard utility found. Please install pbcopy (macOS), xclip, or xsel (Linux)."
     exit 1
