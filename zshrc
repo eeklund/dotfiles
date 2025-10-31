@@ -53,6 +53,9 @@ source $(brew --prefix nvm)/nvm.sh
 
 autoload bashcompinit && bashcompinit
 source $(brew --prefix)/etc/bash_completion.d/az
+
+export VAULT_ADDR=https://hcp-vault-private-vault-fc507e0d.5d5b1f21.z1.hashicorp.cloud:8200
+export VAULT_NAMESPACE=admin/asr
 ssh-add ~/.ssh/id_rsa
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/eeklund/.docker/completions $fpath)
