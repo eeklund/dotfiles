@@ -9,3 +9,7 @@ for function in /Users/eeklund/.asr/functions/*; do
 done
 
 alias mrsk='docker run --rm -it -v $HOME/.ssh:/root/.ssh -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}/:/workdir  ghcr.io/mrsked/mrsk'
+
+FPATH="$HOME/.docker/completions:$FPATH"
+autoload -Uz compinit
+compinit

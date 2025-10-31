@@ -54,3 +54,8 @@ source $(brew --prefix nvm)/nvm.sh
 autoload bashcompinit && bashcompinit
 source $(brew --prefix)/etc/bash_completion.d/az
 ssh-add ~/.ssh/id_rsa
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/eeklund/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
